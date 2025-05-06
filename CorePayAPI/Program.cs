@@ -1,4 +1,7 @@
 using CorePayAPI.Data;
+using CorePayAPI.Repository;
+using CorePayAPI.Repository.Interface;
+using CorePayAPI.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,9 @@ var connectionString = builder.Configuration.GetConnectionString("databaseUrl");
 builder.Services.AddDbContext<DataContext>(
     options => options.UseSqlServer(connectionString).EnableSensitiveDataLogging()
 );
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

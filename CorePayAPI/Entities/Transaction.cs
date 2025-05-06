@@ -17,9 +17,5 @@ namespace CorePayAPI.Entities
         public TransferStatus Status { get; set; }
 
         public DateTime Date { get; set; }
-
-        public User Name { get; set; }
-
-        public User Balance { get; set; }
     }
 }

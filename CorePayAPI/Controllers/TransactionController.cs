@@ -1,7 +1,6 @@
-﻿using Azure.Core;
-using CorePayAPI.Data;
-using CorePayAPI.Entities;
+﻿using CorePayAPI.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,8 +21,8 @@ namespace CorePayAPI.Controllers
         [HttpPost("Transaction")]
         public async Task<IActionResult> TransferMoney(int senderId, int receiverId, decimal amount)
         {
-            var sender = await _dataContext.Users.FindAsync(senderId);
-            var receiver = await _dataContext.Users.FindAsync(receiverId);
+            var sender = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == senderId);
+            var receiver = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == receiverId);
 
 
             if (sender == null || receiver == null)
