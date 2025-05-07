@@ -18,11 +18,11 @@ namespace CorePayAPI.Controllers
         }
 
         //POST api/<TransactionController>
-        [HttpPost("Transaction")]
-        public async Task<IActionResult> TransferMoney(int senderId, int receiverId, decimal amount)
+        [HttpPost("Transaction/{userid}")]
+        public async Task<IActionResult> TransferMoney(string userId, [FromBody] TransactionRequest request)
         {
-            var sender = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == senderId);
-            var receiver = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == receiverId);
+            var sender = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == request.senderId);
+            var receiver = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == request.receiverId);
 
 
             if (sender == null || receiver == null)
@@ -30,14 +30,14 @@ namespace CorePayAPI.Controllers
                 return NotFound("User not found");
             }
 
-            if (sender.Balance < amount)
+            if (sender.Balance < request.amount)
             {
                 return BadRequest("Insufficient balance");
             }
 
-            sender.Balance -= amount;
-            receiver.Balance += amount;
-          
+            sender.Balance -= request.amount;
+            receiver.Balance += request.amount;
+
 
             return Ok(new
             {
@@ -49,6 +49,13 @@ namespace CorePayAPI.Controllers
                 ReceiverBalance = receiver.Balance
             });
 
+        }
+
+        public class TransactionRequest
+        {
+            public int senderId { get; set; }
+            public int receiverId { get; set; }
+            public decimal amount { get; set; }
         }
     }
 }

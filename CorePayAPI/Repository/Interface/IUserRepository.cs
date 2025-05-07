@@ -1,9 +1,11 @@
 ﻿using CorePayAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CorePayAPI.Repository.Interface
 {
     public interface IUserRepository
     {
-        User ConsultUser(int UserId);
+        Task<decimal> ConsultUser(int UserId);
+        DbSet<User> Entities { get; }
     }
 }

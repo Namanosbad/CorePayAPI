@@ -22,17 +22,15 @@ namespace CorePayAPI.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{userId}")]
-        public ActionResult<User> GetUser(int userId)
+        public IActionResult GetUser(int userId)
         {
-            try
-            {
-                var user = _userService.ConsultUser(userId);
-                return Ok(user); 
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message); 
-            }
+            var response = _userService.ConsultUser(userId);
+
+            if (!response.isSucess)
+                return BadRequest(response);
+
+            return Ok(response);
+
         }
     }
 }

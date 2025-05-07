@@ -4,6 +4,6 @@ namespace CorePayAPI.Service
 {
     public interface IUserService
     {
-        User ConsultUser(int userId);
+        ApiResponse<User> ConsultUser(int userId);
     }
 }

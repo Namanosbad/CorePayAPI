@@ -18,14 +18,28 @@ namespace CorePayAPI.Service
         }
 
         // Método para consultar o usuário pelo ID
-        public User ConsultUser(int userId)
+        public ApiResponse<User> ConsultUser(int userId)
         {
-            var user = _userRepository.ConsultUser(userId); // Consultando o repositório
-            if (user == null)
+            ApiResponse<User> response = new(); 
+
+            try
             {
-                throw new Exception("Usuário não encontrado.");
+                var user = _userRepository.Entities.SingleOrDefault(i=> i.Id == 1);
+
+                if (user == null)
+                {
+                    response.Fail(404, "User not found");
+                    return response;
+                }
+
+                response.Sucess(user);
             }
-            return user; // Retornando o usuário encontrado
+            catch(Exception ex)
+            {
+                response.Fail(500, ex.Message);
+            }
+
+            return response;
         }
 
     }

@@ -2,19 +2,17 @@
 
 namespace CorePayAPI.Entities
 {
-    public class User
+    public class User : Entity
     {
-
-        public int UserId { get; set; }
         public string? Name { get; set; }
-        public Decimal Balance { get; set; }
+        public decimal Balance { get; set; }
         public User()
         {
         }
 
         public User(int userId, string name,decimal balance)
         {
-            UserId = userId;
+            Id = userId;
             Name = name;
             Balance = balance;
         }
