@@ -10,19 +10,19 @@ namespace CorePayAPI.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly CorePayDb _dataContext;
 
-        public TransactionController(DataContext dataContext)
+        public TransactionController(CorePayDb dataContext)
         {
             _dataContext = dataContext;
         }
 
         //POST api/<TransactionController>
-        [HttpPost("Transaction")]
-        public async Task<IActionResult> TransferMoney(int senderId, int receiverId, decimal amount)
+        [HttpPost("Transactions")]
+        public async Task<IActionResult> TransferMoney([FromBody]int senderId, int receiverId, decimal amount)
         {
-            var sender = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == senderId);
-            var receiver = await _dataContext.Users.SingleOrDefaultAsync(u => u.UserId == receiverId);
+            var sender = await _dataContext.Users.SingleOrDefaultAsync(u => u.Id == senderId);
+            var receiver = await _dataContext.Users.SingleOrDefaultAsync(u => u.Id == receiverId);
 
 
             if (sender == null || receiver == null)
@@ -41,10 +41,10 @@ namespace CorePayAPI.Controllers
 
             return Ok(new
             {
-                SenderId = sender.UserId,
+                SenderId = sender.Id,
                 SenderName = sender.Name,
                 SenderBalance = sender.Balance,
-                ReceiverId = receiver.UserId,
+                ReceiverId = receiver.Id,
                 ReceiverName = receiver.Name,
                 ReceiverBalance = receiver.Balance
             });

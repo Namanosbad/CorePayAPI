@@ -1,22 +1,20 @@
 ﻿using CorePayAPI.Data;
-using CorePayAPI.Entities;
+using CorePayAPI.Entities.CorePayDB;
 using CorePayAPI.Repository.Interface;
 
 namespace CorePayAPI.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly CorePayDb _dataContext;
 
-        public UserRepository(DataContext dataContext)
+        public UserRepository(CorePayDb dataContext)
         {
             _dataContext = dataContext;
         }
-
-    
         public User ConsultUser(int userId)
         {
-            return _dataContext.Users.SingleOrDefault(u => u.UserId == userId);
+            return _dataContext.Users.SingleOrDefault(u => u.Id == userId);
         }
     }
 }

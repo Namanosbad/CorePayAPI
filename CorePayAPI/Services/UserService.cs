@@ -1,8 +1,9 @@
 ﻿using Azure.Messaging;
 using CorePayAPI.Data;
-using CorePayAPI.Entities;
+using CorePayAPI.Entities.CorePayDB;
 using CorePayAPI.Repository;
 using CorePayAPI.Repository.Interface;
+using CorePayAPI.Service.Interface;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CorePayAPI.Service

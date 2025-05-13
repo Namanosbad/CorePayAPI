@@ -1,12 +1,11 @@
 ﻿using CorePayAPI.Enums;
+using CorePayAPI.Repository.Interface;
 
-namespace CorePayAPI.Entities
+namespace CorePayAPI.Entities.CorePayDB
 
 {
-    public class Transaction
+    public class Transaction : Entity
     {
-
-        public int Id { get; set; }
 
         public int SenderId { get; set; }
 
@@ -17,5 +16,6 @@ namespace CorePayAPI.Entities
         public TransferStatus Status { get; set; }
 
         public DateTime Date { get; set; }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using CorePayAPI.Data;
-using CorePayAPI.Entities;
+using CorePayAPI.Entities.CorePayDB;
 using CorePayAPI.Repository.Interface;
-using CorePayAPI.Service;
+using CorePayAPI.Service.Interface;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,26 +13,23 @@ namespace CorePayAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IRepository<User> _userRepository;
 
-        public UserController(IUserService userService)
+        public UserController(IRepository<User> userRepository)
         {
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         // GET api/<UserController>/5
         [HttpGet("{userId}")]
-        public ActionResult<User> GetUser(int userId)
+        public async Task<ActionResult<User>> GetUser(int userId)
         {
-            try
-            {
-                var user = _userService.ConsultUser(userId);
-                return Ok(user); 
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message); 
-            }
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user is null)
+                return NotFound($"User ID {userId} not found.");
+
+            return Ok(user);
         }
     }
 }
