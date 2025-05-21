@@ -1,5 +1,5 @@
-﻿using CorePayAPI.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using CorePayAPI.Entities.CorePayDB;
+using CorePayAPI.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,22 +10,23 @@ namespace CorePayAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly IRepository<User> _userRepository;
 
-        public UserController(DataContext dataContext)
+        public UserController(IRepository<User> userRepository)
         {
-            _dataContext = dataContext;
+            _userRepository = userRepository;
         }
+
         // GET api/<UserController>/5
         [HttpGet("{userId}")]
-        public async Task<IActionResult> ConsultUser(int userId)
+        public async Task<ActionResult<User>> GetUser(int userId)
         {
-            var user = await _dataContext.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            return Ok(new{user.UserId, user.Name, user.Balance});
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user is null)
+                return NotFound($"User ID {userId} not found.");
+
+            return Ok(user);
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using CorePayAPI.Enums;
+using CorePayAPI.Repository.Interface;
 
-namespace CorePayAPI.Entities
+namespace CorePayAPI.Entities.CorePayDB
 
 {
-    public class Transaction
+    public class Transaction : Entity
     {
-
-        public int Id { get; set; }
 
         public int SenderId { get; set; }
 
@@ -18,8 +17,5 @@ namespace CorePayAPI.Entities
 
         public DateTime Date { get; set; }
 
-        public User Name { get; set; }
-
-        public User Balance { get; set; }
     }
 }

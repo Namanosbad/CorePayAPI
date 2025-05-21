@@ -1,4 +1,9 @@
 using CorePayAPI.Data;
+using CorePayAPI.Repository;
+using CorePayAPI.Repository.Interface;
+using CorePayAPI.ServiceCollectionExtensions;
+using CorePayAPI.Services;
+using CorePayAPI.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,10 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("databaseUrl");
-builder.Services.AddDbContext<DataContext>(
-    options => options.UseSqlServer(connectionString).EnableSensitiveDataLogging()
-);
+builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 

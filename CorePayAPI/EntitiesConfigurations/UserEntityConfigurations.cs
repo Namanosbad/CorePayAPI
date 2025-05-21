@@ -1,4 +1,4 @@
-﻿using CorePayAPI.Entities;
+﻿using CorePayAPI.Entities.CorePayDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
@@ -10,8 +10,8 @@ namespace CorePayAPI.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         { 
         builder.ToTable("User");
-                    builder.HasKey(e => e.UserId);
-                    builder.Property(e => e.UserId).ValueGeneratedOnAdd();
+                    builder.HasKey(e => e.Id);
+                    builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Name)
                                 .IsRequired()

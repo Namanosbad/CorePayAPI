@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CorePayAPI.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(CorePayDb))]
     [Migration("20250502141945_InitialWithSeed")]
     partial class InitialWithSeed
     {
