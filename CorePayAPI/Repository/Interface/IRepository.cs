@@ -1,5 +1,4 @@
-﻿using CorePayAPI.Data;
-using CorePayAPI.Entities.Interface;
+﻿using CorePayAPI.Entities.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace CorePayAPI.Repository.Interface

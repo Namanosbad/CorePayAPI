@@ -1,8 +1,5 @@
-﻿using CorePayAPI.Data;
-using CorePayAPI.Entities.CorePayDB;
+﻿using CorePayAPI.Entities.CorePayDB;
 using CorePayAPI.Repository.Interface;
-using CorePayAPI.Service.Interface;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

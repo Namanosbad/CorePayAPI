@@ -1,6 +1,6 @@
 ﻿using CorePayAPI.Entities.CorePayDB;
 
-namespace CorePayAPI.Service.Interface
+namespace CorePayAPI.Services.Interface
 {
     public interface IUserService
     {
