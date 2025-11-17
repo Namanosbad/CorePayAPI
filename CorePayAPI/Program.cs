@@ -1,10 +1,4 @@
-using CorePayAPI.Data;
-using CorePayAPI.Repository;
-using CorePayAPI.Repository.Interface;
 using CorePayAPI.ServiceCollectionExtensions;
-using CorePayAPI.Services;
-using CorePayAPI.Services.Interface;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

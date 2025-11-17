@@ -1,0 +1,5 @@
+Rodar migration:
+dotnet ef migrations add InitialCreate --project CorePay.API.Database --startup-project CorePayAPI
+
+update migration:
+dotnet ef database update --project CorePay.API.Database --startup-project CorePayAPI

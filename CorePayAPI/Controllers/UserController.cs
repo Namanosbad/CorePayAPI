@@ -1,4 +1,4 @@
-﻿using CorePayAPI.Entities.CorePayDB;
+﻿using CorePay.API.Domain.Entities;
 using CorePayAPI.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
