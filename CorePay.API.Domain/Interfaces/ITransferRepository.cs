@@ -6,5 +6,8 @@ namespace CorePayAPI.Repository.Interface
     {
         Task<User> GetUserByIdAsync(int id);
         Task SaveChangesAsync();
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
     }
 }
