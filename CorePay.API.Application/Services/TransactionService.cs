@@ -3,57 +3,60 @@ using CorePayAPI.DTOs.Requests;
 using CorePayAPI.DTOs.Responses;
 using CorePayAPI.Repository.Interface;
 
-namespace CorePayAPI.Services
+namespace CorePay.API.Application.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransactionService(ITransferRepository transferRepository) : ITransactionService
     {
-        private readonly ITransferRepository _transferRepository;
-
-        public TransactionService(ITransferRepository transferRepository)
-        {
-            _transferRepository = transferRepository;
-        }
+        private readonly ITransferRepository _transferRepository = transferRepository;
 
         public async Task<Response> TransferMoneyAsync(TransferRequest request)
         {
-            var sender = await _transferRepository.GetUserByIdAsync(request.SenderId);
-            var receiver = await _transferRepository.GetUserByIdAsync(request.ReceiverId);
+            await _transferRepository.BeginTransactionAsync();
 
-            if (sender == null || receiver == null)
+            try
+            {
+                var sender = await _transferRepository.GetUserByIdAsync(request.SenderId);
+                var receiver = await _transferRepository.GetUserByIdAsync(request.ReceiverId);
+
+                if (sender == null || receiver == null)
+                    throw new Exception("user not found.");
+
+                if (sender.Balance < request.Amount)
+                    throw new Exception("Insufficient balance.");
+
+                sender.Balance -= request.Amount;
+                receiver.Balance += request.Amount;
+
+                await _transferRepository.SaveChangesAsync();
+
+                await _transferRepository.CommitTransactionAsync();
+
+                var transfer = new TransferResponse
+                {
+                    SenderId = sender.Id,
+                    SenderName = sender.Name,
+                    SenderBalance = sender.Balance,
+                    ReceiverId = receiver.Id,
+                    ReceiverName = receiver.Name,
+                    ReceiverBalance = receiver.Balance
+                };
+
+                return new Response
+                {
+                    Success = true,
+                    Data = transfer
+                };
+            }
+            catch (Exception ex)
+            {
+                await _transferRepository.RollbackTransactionAsync();
+
                 return new Response
                 {
                     Success = false,
-                    ErrorMessage = "User not found."
+                    ErrorMessage = $"Transaction failed: {ex.Message}"
                 };
-
-            if (sender.Balance < request.Amount)
-                return new Response
-                {
-                    Success = false,
-                    ErrorMessage = "Insufficient balance."
-                };
-
-            sender.Balance -= request.Amount;
-            receiver.Balance += request.Amount;
-
-            await _transferRepository.SaveChangesAsync();
-
-            var transfer = new TransferResponse
-            {
-                SenderId = sender.Id,
-                SenderName = sender.Name,
-                SenderBalance = sender.Balance,
-                ReceiverId = receiver.Id,
-                ReceiverName = receiver.Name,
-                ReceiverBalance = receiver.Balance
-            };
-
-            return new Response
-            {
-                Success = true,
-                Data = transfer
-            };
+            }
         }
     }
-
 }

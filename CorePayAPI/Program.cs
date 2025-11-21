@@ -1,4 +1,4 @@
-using CorePayAPI.ServiceCollectionExtensions;
+using CorePay.API.Ioc;
 
 var builder = WebApplication.CreateBuilder(args);
 

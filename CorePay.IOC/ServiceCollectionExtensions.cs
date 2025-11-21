@@ -8,8 +8,9 @@ using CorePayAPI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using CorePay.API.Application.Services;
 
-namespace CorePayAPI.ServiceCollectionExtensions
+namespace CorePay.API.Ioc
 {
     public static class ServiceCollectionExtensions
     {
@@ -34,7 +35,7 @@ namespace CorePayAPI.ServiceCollectionExtensions
             });
 
             return services;
-    }
+        }
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
