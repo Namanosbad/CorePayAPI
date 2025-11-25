@@ -15,14 +15,19 @@ namespace CorePay.API.Application.Services
 
             try
             {
+                if (request.Amount <= 0)
+                    throw new Exception("Invalid transfer value.");
+
                 var sender = await _transferRepository.GetUserByIdAsync(request.SenderId);
                 var receiver = await _transferRepository.GetUserByIdAsync(request.ReceiverId);
 
+
                 if (sender == null || receiver == null)
                     throw new Exception("user not found.");
-
+           
                 if (sender.Balance < request.Amount)
                     throw new Exception("Insufficient balance.");
+
 
                 sender.Balance -= request.Amount;
                 receiver.Balance += request.Amount;
